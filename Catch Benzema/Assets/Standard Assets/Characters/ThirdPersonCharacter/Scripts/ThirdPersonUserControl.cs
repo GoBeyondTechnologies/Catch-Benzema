@@ -15,6 +15,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         public float speed = 1;
 
+        public bool gamestart = false;
+
         private void Start()
         {
             // get the transform of the main camera
@@ -47,6 +49,14 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             }
         }
 
+        public void enablestart()
+        {
+            gamestart = true;
+        }
+        public void disablestart()
+        {
+            gamestart = false;
+        }
 
         // Fixed update is called in sync with physics
         private void FixedUpdate()
@@ -55,19 +65,18 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             float h = CrossPlatformInputManager.GetAxis("Horizontal");
             float v = CrossPlatformInputManager.GetAxis("Vertical");
             bool crouch = Input.GetKey(KeyCode.C);
-
-            // calculate move direction to pass to character
-            /*if (m_Cam != null)
+            if (gamestart)
             {
-                // calculate camera relative direction to move:
-                m_CamForward = Vector3.Scale(m_Cam.forward, new Vector3(1, 0, 1)).normalized;
-                m_Move = speed*m_CamForward + 0*m_Cam.right;
-            }
-            else*/
-            //{
-                // we use world-relative directions in the case of no main camera
+
                 m_Move = speed * Vector3.forward + 0 * Vector3.right;
-            //}
+            }
+            else
+            {
+
+                m_Move = 0 * Vector3.forward + 0 * Vector3.right;
+
+
+            }
 #if !MOBILE_INPUT
 			// walk speed multiplier
 	        //if (Input.GetKey(KeyCode.LeftShift)) m_Move *= 0.5f;
@@ -76,6 +85,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             // pass all parameters to the character control script
             m_Character.Move(m_Move, crouch, m_Jump);
             m_Jump = false;
+
         }
     }
 }
