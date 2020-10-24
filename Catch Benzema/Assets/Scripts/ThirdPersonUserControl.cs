@@ -17,8 +17,21 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         public bool gamestart = false;
 
+        public GameObject lvldata;
+        private int level;
+
         private void Start()
         {
+            level = lvldata.GetComponent<LevelData>().getlevel();
+
+
+            if (transform.tag == "Benzema")
+            {
+                speed = 0.85f + 0.02f*level;
+                //Debug.Log("level " + level.ToString());
+                Debug.Log("benzema speed " + speed.ToString());
+            }
+
             // get the transform of the main camera
             if (Camera.main != null)
             {
