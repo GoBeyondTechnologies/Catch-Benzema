@@ -21,12 +21,13 @@ public class MainScript : MonoBehaviour
     public Button buttonright;
     public Button buttonleft;
 
-    public float benzemaspeed;
-    public float playerspeed;
+
+    AudioSource refereewhistle;
 
     // Start is called before the first frame update
     void Start()
     {
+        refereewhistle = GetComponent<AudioSource>();
         leveltext.text = "Level: " + (lvldata.GetComponent<LevelData>().getlevel()+1).ToString();
         wintext.gameObject.SetActive(false);
         losetext.gameObject.SetActive(false);
@@ -35,24 +36,14 @@ public class MainScript : MonoBehaviour
         buttonleft.gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-       
-
-        benzemaspeed = benzema.GetComponent<ThirdPersonUserControl>().speed;
-        playerspeed = player.GetComponent<ThirdPersonUserControl>().speed;
-
-
-
-    }
-
 
 
     public void startgame()
     {
         playbtn.gameObject.SetActive(false);
         //Debug.Log("start countdown");
+        refereewhistle.Play();
+
         Invoke("countdown", 1f);
       
     }
@@ -61,7 +52,6 @@ public class MainScript : MonoBehaviour
     {
         //Debug.Log("start");
         buttonright.gameObject.SetActive(true);
-
         benzema.GetComponent<ThirdPersonUserControl>().enablestart();
         player.GetComponent<ThirdPersonUserControl>().enablestart();
 
